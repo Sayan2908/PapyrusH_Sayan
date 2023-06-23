@@ -1,203 +1,74 @@
-# Samples for the Adobe PDFServices Python SDK
+# Data Extraction from PDF Invoices
 
-This sample project helps you get started with the Adobe PDFServices Python SDK which currently has Extract PDF and Autotag PDF Operations.
+This project is for extracting data from pdfs and comparing them in csv format
 
-The sample classes illustrate how to perform PDF-related extraction (extracting content of PDF in user friendly 
-structured format) and autotagging (tagging content of PDF with rich structural information) using the SDK.
+## Overview
 
-## Prerequisites
-The sample application has the following requirements:
-* Python : Version 3.6 or above. Python installation instructions can be found [here](https://www.python.org/). 
+- `TestDataSet`folder contains the PDFs
+- `Extracted_json_files`folder contains extracted .json files.
+- `invoice.csv` file is the actual output.
+- `extractalldata.py`  extracts the JSON files from the PDFs
+- `jsontocsv_converter.py` generates the `invoice_data.csv` file containing the extracted invoice data from the json files
 
-## Authentication Setup
+## Requirements
 
-The api credentials file and corresponding private key file for the samples is ```pdfservices-api-credentials.json``` and ```private.key``` 
-respectively. Before the samples can be run, replace both the files with the ones present in the downloaded zip file at 
-the end of creation of credentials via [Get Started](https://www.adobe.io/apis/documentcloud/dcsdk/gettingstarted.html?ref=getStartedWithServicesSdk) workflow.
+### To run this project, I have used the following dependencies:
 
-The SDK also supports providing the authentication credentials at runtime, without storing them in a config file. Please
-refer this [section](#extract-text-elements-by-providing-in-memory-authentication-credentials) to 
-know more.
-Additionally, SDK can be configured to process the documents in the specified region.
-Please refer this [section](#extract-text-elements-by-providing-the-region) to know more.
+- Python 3.9
+- Adobe PDF Services API credentials (json file)
+- Required Python packages (specified in the code)
+- Sample Code SDK
 
 ## Installation
 
-Install the dependencies for the samples as listed in the ```requirements.txt``` file with this command: 
-
-    pip install -r requirements.txt
-
-## A Note on Logging
-
-The SDK uses the Python standard logging module. Customize the logging settings as needed.
-
-Default Logging Config:
-
-    logging.getLogger(__name__).addHandler(logging.NullHandler())
-
-
-## Running the samples
-The following sub-sections describe how to run the samples. Prior to running the samples, check that the credentials 
-file is set up as described above and that the project has been built.
-
-The code itself is in the ```extractpdf``` and ```autotag``` folders. Test files used by the samples can be found in ```resources/```. When executed, all samples create an ```output``` 
-child folder under the project root directory to store their results.
-
-### Extract PDF
-
-#### Structured Information Output Format
-The output of SDK extract operation is Zip package. The Zip package consists of following:
-
-* The structuredData.json file with the extracted content & PDF element structure. 
-  See the [JSON schema](https://opensource.adobe.com/pdftools-sdk-docs/release/shared/extractJSONOutputSchema.json).
-  Please refer the [Styling JSON schema](https://opensource.adobe.com/pdftools-sdk-docs/release/shared/extractJSONOutputSchemaStylingInfo.json) for a description of the output when the styling option is enabled. 
-* A renditions folder(s) containing renditions for each element type selected as input. 
-  The folder name is either “tables” or “figures” depending on your specified element type. 
-  Each folder contains renditions with filenames that correspond to the element information in the JSON file. 
-
-#### Extract Elements Information and Renditions from a PDF File
-These samples illustrate how to extract PDF elements from PDF Document.
-
-##### Extract Text Elements
-
-The sample class ```extract_txt_from_pdf.py``` extracts text elements from PDF Document.
-
-```$xslt
-python src/extractpdf/extract_txt_from_pdf.py
+1. Clone the repository to your local machine:
+```bash
+  git clone https://github.com/Sayan2908/PapyrusH_Sayan.git
 ```
 
-##### Extract Text, Table Elements
 
-The sample class ```extract_txt_table_info_from_pdf.py``` extracts text, table elements from PDF Document. 
-
-```$xslt
-python src/extractpdf/extract_txt_table_info_from_pdf.py
-```
-##### Extract Text, Table Elements with Renditions of Table Elements
-
-The sample class ```extract_txt_table_info_with_rendition_from_pdf.py``` extracts text, table elements along with table renditions
-from PDF Document. Note that the output is a zip containing the structured information along with renditions as described
-in [section](#structured-information-output-format).
-
-```$xslt
-python src/extractpdf/extract_txt_table_info_with_rendition_from_pdf.py
-```
-##### Extract Text, Table Elements with Renditions of Figure, Table Elements
-
-The sample class ```extract_txt_table_info_with_figure_tables_rendition_from_pdf.py``` extracts text, table elements along with figure 
-and table element's renditions from PDF Document. Note that the output is a zip containing the structured information 
-along with renditions as described in [section](#structured-information-output-format).
-
-```$xslt
-python src/extractpdf/extract_txt_table_info_with_figure_tables_rendition_from_pdf.py
+2. Navigate to the project directory:
+```bash
+  cd PapyrusH_Sayan
 ```
 
-##### Extract Text Elements (By providing custom timeouts)
 
-The sample class ```extract_txt_from_pdf_with_custom_timeouts.py``` extracts text elements from PDF Document. 
-This sample highlights how to provide the custom value for connection timeout and socket timeout. 
-
-```$xslt
-python src/extractpdf/extract_txt_from_pdf_with_custom_timeouts.py
+3. Install the required Python packages:
+```bash
+  pip install -r requirements.txt
 ```
 
-##### Extract Text Elements (By providing in-memory Authentication credentials)
 
-The sample class ```extract_txt_from_pdf_with_in_memory_auth_credentials.py``` extracts text elements from PDF Document. 
-This sample highlights how to provide in-memory auth credentials for performing an operation. 
-This enables the clients to fetch the credentials from a secret server during runtime, instead of storing them in a file.
+## Usage
 
-```$xslt
-python src/extractpdf/extract_txt_from_pdf_with_in_memory_auth_credentials.py
+1. The PDF files are in the `TestDataSet` folder.
+
+2. Update the `pdfservices-api-credentials.json` file with your Adobe PDF Services API credentials.
+
+3. Run the below script to extract data from PDFs in the TestDataSet folder and generate JSON files:
+```bash
+  python extractalldata.py
 ```
+This will extract the JSON files from the PDFs, process the data, and store it in the `Extracted_json_files` folder
 
-##### Extract Text Elements and bounding boxes for Characters present in text blocks
-
-The sample class ```extract_txt_with_char_bounds_from_pdf.py``` extracts text elements and bounding boxes for characters present in text blocks. 
-Note that the output is a zip containing the structured information 
-along with renditions as described in [section](#structured-information-output-format).
-
-```$xslt
-python src/extractpdf/extract_txt_with_char_bounds_from_pdf.py
+4. Run the script to convert JSON files to CSV format:
+```bash
+  python jsontocsv_converter.py
 ```
+This will generate the `invoice_data.csv` file containing the extracted invoice data from the json files.
 
-##### Extract Text, Table Elements and bounding boxes for Characters present in text blocks with Renditions of Table Elements
 
-The sample class ```extract_txt_table_info_with_char_bounds_from_pdf.py``` extracts text, table elements, bounding boxes for characters present in text blocks and table element's renditions from PDF Document. 
-Note that the output is a zip containing the structured information 
-along with renditions as described in [section](#structured-information-output-format).
+## Algo:
 
-```$xslt
-python src/extractpdf/extract_txt_table_info_with_char_bounds_from_pdf.py
-```
-
-##### Extract Text, Table Elements with Renditions and CSV's of Table Elements
-
-The sample class ```extract_txt_table_info_with_table_structure_from_pdf.py``` extracts text, table elements, table structures as CSV and table element's renditions from PDF Document.  
-Note that the output is a zip containing the structured information 
-along with renditions as described in [section](#structured-information-output-format).
-
-```$xslt
-python src/extractpdf/extract_txt_table_info_with_table_structure_from_pdf.py
-```
-
-##### Extract Text with Styling Info
-
-The sample class ```extract_txt_with_styling_info_from_pdf.py``` extracts text along with Styling Info.  
-Note that the output is a zip containing the structured information 
-along with renditions as described in [section](#structured-information-output-format).
-
-```$xslt
-python src/extractpdf/extract_txt_with_styling_info_from_pdf.py
-```
-
-##### Extract Text elements (by providing the region)
-
-The sample class ```extract_txt_from_pdf_with_specified_region.py``` highlights how to configure the SDK to process the documents in the specified region.
-
-```$xslt
-python src/extractpdf/extract_txt_from_pdf_with_specified_region.py
-```
-
-### Autotag PDF
-
-These samples illustrate auto-tagging a PDF and generating the tagged PDF and an optional report
-which contains the information about the tags the tagged document contains.
-
-#### Generates tagged PDF from a PDF
-
-The sample class ```autotag_pdf.py``` generates tagged PDF from a PDF.
-
-```$xslt
-python src/autotagpdf/autotag_pdf.py
-```
-
-#### Generates tagged PDF along with a report and shift the headings in the output PDF file
-
-The sample class ```autotag_pdf_with_options.py``` generates tagged PDF with a report and shift the headings in the output PDF file.
-
-```$xslt
-python src/autotagpdf/autotag_pdf_with_options.py
-```
-
-#### Generates tagged PDF by setting options with command line arguments
-
-The sample class ```autotag_pdf_parameterised.py``` generates tagged PDF by setting options through command line arguments
-
-Here is a sample list of command line arguments and their description: </br>
---input &lt; input file path &gt; </br>
---output &lt; output file path &gt; </br>
---report { If this argument is present then the output will be generated with the report } </br>
---shift_headings { If this argument is present then the headings will be shifted in the output PDF file } </br>
-
-```$xslt
-python src/autotagpdf/autotag_pdf_parameterised.py --report --shift_headings --input resources/autotagPdfInput.pdf --output output/AutotagPDFParamaterised/
-```
-
-### Contributing
-
-Contributions are welcome! Read the [Contributing Guide](.github/CONTRIBUTING.md) for more information.
-
-### Licensing
-
-This project is licensed under the Apache2 License. See [LICENSE](LICENSE.md) for more information. 
+- In `extractalldata.py` I have used the adobe PDF Extraction API to extract data from all the pdfs by looping through them one by one in the `TestDataSet` folder and containing them in a zip file I have also extracted the json internally cause it appears that the API returns a compressed version of the jsons.
+- In `jsontocsv_converter.py` I have used different  ways to extract the data from json:
+  1. Like the Invoice_description I got it using the **`Bounds`** attribute as it appeared to have similar bounds in all the json files
+  2. I extracted the text data from the **`Text`** attribute of various elements
+  3. Text data may have whitespaces so I removed them
+  4. I defined proper variables to store the data as the column indexes
+  5. Some things like the name of the shop and street were constant so I removed them and made a new list.
+  6. According to the pattern the name was the first element so that got sorted out
+  7. The text element containing '@' in it is the email
+  8. The $ sign and address were also extracted in the similar way as above
+  9. The date format and mobile number format helped in extracting texts with that same format using 're' library in python
+  10. After removing the data already collected iterate through the filtered list to extract transaction items, quantities, and rates.
